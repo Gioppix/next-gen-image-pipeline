@@ -9,6 +9,14 @@ const app = new OpenAPIHono();
 
 app.use(cors());
 
+const ARTIFICIAL_DELAY_MS = Number(process.env.ARTIFICIAL_DELAY_MS) || 0;
+if (ARTIFICIAL_DELAY_MS > 0) {
+    app.use(async (_, next) => {
+        await new Promise((r) => setTimeout(r, ARTIFICIAL_DELAY_MS));
+        await next();
+    });
+}
+
 app.route('/', transformationsRouter);
 app.route('/', imagesRouter);
 

@@ -81,22 +81,26 @@
         <div class="space-y-1">
             <p class="text-xs font-medium tracking-wide text-gray-400 uppercase">Original</p>
             <div class="relative h-96 w-full overflow-hidden rounded-lg shadow">
-                <img
-                    src="{API_BASE}/images/private/{data.original_image_id}"
-                    alt="Original"
-                    class="absolute inset-0 h-full w-full object-contain"
-                />
+                {#key data.original_image_id}
+                    <img
+                        src="{API_BASE}/images/private/{data.original_image_id}"
+                        alt="Original"
+                        class="absolute inset-0 h-full w-full object-contain"
+                    />
+                {/key}
             </div>
         </div>
         <div class="space-y-1">
             <p class="text-xs font-medium tracking-wide text-gray-400 uppercase">Final</p>
             <div class="relative h-96 w-full overflow-hidden rounded-lg shadow">
                 {#if status === 'completed'}
-                    <img
-                        src="{API_BASE}/images/private/{data.final_image_id}"
-                        alt="Processed result"
-                        class="absolute inset-0 h-full w-full object-contain"
-                    />
+                    {#key data.final_image_id}
+                        <img
+                            src="{API_BASE}/images/private/{data.final_image_id}"
+                            alt="Processed result"
+                            class="absolute inset-0 h-full w-full object-contain"
+                        />
+                    {/key}
                 {/if}
             </div>
         </div>

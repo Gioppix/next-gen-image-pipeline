@@ -1,11 +1,14 @@
 <script lang="ts">
     import './layout.css';
     import favicon from '$lib/assets/favicon.svg';
-    import { page } from '$app/stores';
-    import { API_BASE } from '$lib/api';
-    import { resolve } from '$app/paths';
+    import SidebarItem from '$lib/components/SidebarItem.svelte';
 
     let { children, data } = $props();
+
+    let jobsWithImage = $derived(
+        data.jobs.filter((j) => j.final_image_id !== null) as typeof data.jobs &
+            { final_image_id: string }[]
+    );
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
@@ -18,28 +21,11 @@
             All images
         </p>
 
-        {#each data.jobs.filter((j) => j.final_image_id) as job (job.job_id)}
-            <a
-                href={resolve('/transformations/[id]', {
-                    id: job.job_id
-                })}
-                class="block overflow-hidden rounded border-2 transition-colors"
-                class:border-blue-500={$page.params.id === job.job_id}
-                class:border-transparent={$page.params.id !== job.job_id}
-            >
-                <div class="relative h-36 w-full">
-                    <img
-                        src="{API_BASE}/images/private/{job.final_image_id}"
-                        alt="Processed"
-                        class="absolute inset-0 h-full w-full object-cover transition-opacity hover:opacity-80"
-                    />
-                </div>
-            </a>
-        {/each}
-
-        {#if data.jobs.filter((j) => j.final_image_id).length === 0}
+        {#each jobsWithImage as job (job.job_id)}
+            <SidebarItem {job} />
+        {:else}
             <p class="mt-4 text-center text-xs text-gray-400">No images yet</p>
-        {/if}
+        {/each}
     </aside>
 
     <main class="flex-1 overflow-auto p-8">

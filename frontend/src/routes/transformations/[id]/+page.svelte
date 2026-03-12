@@ -1,6 +1,8 @@
 <script lang="ts">
     import { invalidateAll } from '$app/navigation';
     import { api, API_BASE } from '$lib/api';
+    import StatusBadge from '$lib/components/StatusBadge.svelte';
+    import ImagePanel from '$lib/components/ImagePanel.svelte';
 
     let { data } = $props();
 
@@ -55,22 +57,7 @@
 <div class="max-w-4xl space-y-6">
     <div class="space-y-1">
         <div class="font-mono text-xs text-gray-400">{data.job_id}</div>
-        <div class="flex items-center gap-2">
-            <span
-                class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
-                class:bg-yellow-100={status === 'pending'}
-                class:text-yellow-800={status === 'pending'}
-                class:bg-blue-100={status === 'processing'}
-                class:text-blue-800={status === 'processing'}
-                class:bg-green-100={status === 'completed'}
-                class:text-green-800={status === 'completed'}
-                class:bg-red-100={status === 'failed'}
-                class:text-red-800={status === 'failed'}
-            >
-                {status}
-            </span>
-            {#if polling}<span class="text-xs text-gray-400">polling…</span>{/if}
-        </div>
+        <StatusBadge {status} {polling} />
     </div>
 
     {#if errorMsg}
@@ -78,32 +65,12 @@
     {/if}
 
     <div class="grid grid-cols-2 gap-4">
-        <div class="space-y-1">
-            <p class="text-xs font-medium tracking-wide text-gray-400 uppercase">Original</p>
-            <div class="relative h-96 w-full overflow-hidden rounded-lg shadow">
-                {#key data.original_image_id}
-                    <img
-                        src="{API_BASE}/images/private/{data.original_image_id}"
-                        alt="Original"
-                        class="absolute inset-0 h-full w-full object-contain"
-                    />
-                {/key}
-            </div>
-        </div>
-        <div class="space-y-1">
-            <p class="text-xs font-medium tracking-wide text-gray-400 uppercase">Final</p>
-            <div class="relative h-96 w-full overflow-hidden rounded-lg shadow">
-                {#if status === 'completed'}
-                    {#key data.final_image_id}
-                        <img
-                            src="{API_BASE}/images/private/{data.final_image_id}"
-                            alt="Processed result"
-                            class="absolute inset-0 h-full w-full object-contain"
-                        />
-                    {/key}
-                {/if}
-            </div>
-        </div>
+        <ImagePanel label="Original" imageId={data.original_image_id} alt="Original" />
+        <ImagePanel
+            label="Final"
+            imageId={status === 'completed' ? data.final_image_id : null}
+            alt="Processed result"
+        />
     </div>
 
     {#if status === 'completed'}

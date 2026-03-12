@@ -1,0 +1,206 @@
+{
+    "openapi": "3.0.0",
+    "info": { "title": "Next-Gen Image Pipeline API", "version": "1.0.0" },
+    "components": { "schemas": {}, "parameters": {} },
+    "paths": {
+        "/transformations/create": {
+            "post": {
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": { "file": { "nullable": true } }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Job created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "job_id": { "type": "string", "format": "uuid" }
+                                    },
+                                    "required": ["job_id"]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": { "error": { "type": "string" } },
+                                    "required": ["error"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transformations/:id/status": {
+            "get": {
+                "parameters": [
+                    {
+                        "schema": { "type": "string", "format": "uuid" },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Job status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": { "type": "string" },
+                                        "submitted_at": { "type": "string" },
+                                        "completed_at": { "type": "string", "nullable": true },
+                                        "error_msg": { "type": "string", "nullable": true }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "submitted_at",
+                                        "completed_at",
+                                        "error_msg"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": { "error": { "type": "string" } },
+                                    "required": ["error"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transformations/:id/publish": {
+            "post": {
+                "parameters": [
+                    {
+                        "schema": { "type": "string", "format": "uuid" },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Published",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "public_id": { "type": "string", "format": "uuid" }
+                                    },
+                                    "required": ["public_id"]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": { "error": { "type": "string" } },
+                                    "required": ["error"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transformations/:id": {
+            "delete": {
+                "parameters": [
+                    {
+                        "schema": { "type": "string", "format": "uuid" },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": { "success": { "type": "boolean" } },
+                                    "required": ["success"]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": { "error": { "type": "string" } },
+                                    "required": ["error"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/images/:public_id": {
+            "get": {
+                "parameters": [
+                    {
+                        "schema": { "type": "string", "format": "uuid" },
+                        "required": true,
+                        "name": "public_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Image data",
+                        "content": { "image/*": { "schema": { "nullable": true } } }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": { "error": { "type": "string" } },
+                                    "required": ["error"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

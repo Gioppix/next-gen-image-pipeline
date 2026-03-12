@@ -2,6 +2,12 @@
 
 _Bleeding edge tecknology_
 
+## To Improve
+
+- Pick back up jobs on restart
+- Support multiple backends
+-
+
 ## Developing
 
 ### Setup
@@ -22,6 +28,10 @@ npm run dev
 Backend:
 
 ```bash
+# Run these commands once, then only to apply changes
+npm run s3:bucket
+npm run db:dev
+
 cd backend
 npm run dev
 ```

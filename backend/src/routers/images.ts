@@ -1,0 +1,43 @@
+import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import * as jobs from '../modules/jobs/index.js';
+import * as images from '../modules/images/index.js';
+
+const router = new OpenAPIHono();
+
+// GET /images/:public_id
+router.openapi(
+    createRoute({
+        method: 'get',
+        path: '/images/:public_id',
+        request: { params: z.object({ public_id: z.string().uuid() }) },
+        responses: {
+            200: {
+                content: { 'image/*': { schema: z.any() } },
+                description: 'Image data'
+            },
+            404: {
+                content: { 'application/json': { schema: z.object({ error: z.string() }) } },
+                description: 'Not found'
+            }
+        }
+    }),
+    async (c) => {
+        const { public_id } = c.req.valid('param');
+
+        const job = await jobs.getJobByPublicId(public_id);
+        if (!job?.final_image_id) {
+            return c.json({ error: 'Image not found' }, 404 as const);
+        }
+
+        const { buffer, image } = await images.readImage(job.final_image_id);
+
+        return new Response(new Uint8Array(buffer), {
+            headers: {
+                'Content-Type': image.mime_type ?? 'image/png',
+                'Content-Length': String(buffer.length)
+            }
+        });
+    }
+);
+
+export default router;

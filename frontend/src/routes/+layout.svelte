@@ -3,6 +3,7 @@
     import favicon from '$lib/assets/favicon.svg';
     import { page } from '$app/stores';
     import { API_BASE } from '$lib/api';
+    import { resolve } from '$app/paths';
 
     let { children, data } = $props();
 </script>
@@ -19,16 +20,20 @@
 
         {#each data.jobs.filter((j) => j.has_final_image) as job (job.job_id)}
             <a
-                href="/transformations/{job.job_id}"
+                href={resolve('/transformations/[id]', {
+                    id: job.job_id
+                })}
                 class="block overflow-hidden rounded border-2 transition-colors"
                 class:border-blue-500={$page.params.id === job.job_id}
                 class:border-transparent={$page.params.id !== job.job_id}
             >
-                <img
-                    src="{API_BASE}/transformations/{job.job_id}/image"
-                    alt="Processed image"
-                    class="aspect-square w-full object-cover transition-opacity hover:opacity-80"
-                />
+                <div class="relative h-36 w-full">
+                    <img
+                        src="{API_BASE}/transformations/{job.job_id}/image"
+                        alt="Processed"
+                        class="absolute inset-0 h-full w-full object-cover transition-opacity hover:opacity-80"
+                    />
+                </div>
             </a>
         {/each}
 

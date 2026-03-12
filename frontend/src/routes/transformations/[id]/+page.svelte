@@ -78,11 +78,13 @@
     {/if}
 
     {#if status === 'completed'}
-        <img
-            src="{API_BASE}/transformations/{data.job_id}/image"
-            alt="Processed result"
-            class="w-full rounded-lg shadow"
-        />
+        <div class="relative h-96 w-full overflow-hidden rounded-lg shadow">
+            <img
+                src="{API_BASE}/transformations/{data.job_id}/image"
+                alt="Processed result"
+                class="absolute inset-0 h-full w-full object-contain"
+            />
+        </div>
         <div class="flex gap-3">
             {#if !publicId}
                 <button

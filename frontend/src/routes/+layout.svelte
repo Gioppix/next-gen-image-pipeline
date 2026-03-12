@@ -2,6 +2,7 @@
     import './layout.css';
     import favicon from '$lib/assets/favicon.svg';
     import SidebarItem from '$lib/components/SidebarItem.svelte';
+    import DropZone from '$lib/components/DropZone.svelte';
 
     let { children, data } = $props();
 
@@ -20,6 +21,10 @@
         <p class="px-1 py-2 text-xs font-semibold tracking-wide text-gray-400 uppercase">
             All images
         </p>
+
+        <div class="h-24 w-full shrink-0">
+            <DropZone />
+        </div>
 
         {#each jobsWithImage as job (job.job_id)}
             <SidebarItem {job} />

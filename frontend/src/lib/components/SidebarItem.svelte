@@ -10,11 +10,9 @@
 
 <a
     href={resolve('/transformations/[id]', { id: job.job_id })}
-    class="block overflow-hidden rounded border-2 transition-colors"
+    class="relative block h-36 min-h-36 w-full overflow-hidden rounded border-2 transition-colors"
     class:border-blue-500={active}
     class:border-transparent={!active}
 >
-    <div class="relative h-36 w-full">
-        <PrivateImage imageId={job.final_image_id} alt="Processed" objectFit="cover" />
-    </div>
+    <PrivateImage imageId={job.final_image_id} alt="Processed" objectFit="cover" />
 </a>

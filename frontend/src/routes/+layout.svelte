@@ -18,7 +18,7 @@
             All images
         </p>
 
-        {#each data.jobs.filter((j) => j.has_final_image) as job (job.job_id)}
+        {#each data.jobs.filter((j) => j.final_image_id) as job (job.job_id)}
             <a
                 href={resolve('/transformations/[id]', {
                     id: job.job_id
@@ -29,7 +29,7 @@
             >
                 <div class="relative h-36 w-full">
                     <img
-                        src="{API_BASE}/transformations/{job.job_id}/image"
+                        src="{API_BASE}/images/private/{job.final_image_id}"
                         alt="Processed"
                         class="absolute inset-0 h-full w-full object-cover transition-opacity hover:opacity-80"
                     />
@@ -37,7 +37,7 @@
             </a>
         {/each}
 
-        {#if data.jobs.filter((j) => j.has_final_image).length === 0}
+        {#if data.jobs.filter((j) => j.final_image_id).length === 0}
             <p class="mt-4 text-center text-xs text-gray-400">No images yet</p>
         {/if}
     </aside>

@@ -13,7 +13,8 @@ const JobSummarySchema = z.object({
     submitted_at: z.string(),
     completed_at: z.string().nullable(),
     error_msg: z.string().nullable(),
-    has_final_image: z.boolean()
+    original_image_id: z.string().uuid(),
+    final_image_id: z.string().uuid().nullable()
 });
 
 // GET /transformations
@@ -40,41 +41,12 @@ router.openapi(
                     submitted_at: j.submitted_at.toISOString(),
                     completed_at: j.completed_at?.toISOString() ?? null,
                     error_msg: j.error_msg,
-                    has_final_image: j.final_image_id !== null
+                    original_image_id: j.original_image_id,
+                    final_image_id: j.final_image_id
                 }))
             },
             200 as const
         );
-    }
-);
-
-// GET /transformations/:id/image
-router.openapi(
-    createRoute({
-        method: 'get',
-        path: '/transformations/:id/image',
-        request: { params: z.object({ id: z.string().uuid() }) },
-        responses: {
-            200: { content: { 'image/*': { schema: z.any() } }, description: 'Final image' },
-            404: {
-                content: { 'application/json': { schema: ErrorSchema } },
-                description: 'Not found'
-            }
-        }
-    }),
-    async (c) => {
-        const { id } = c.req.valid('param');
-        const job = await jobs.getJob(id);
-        if (!job?.final_image_id)
-            return c.json({ error: 'No final image for this job' }, 404 as const);
-
-        const { buffer, image } = await images.readImage(job.final_image_id);
-        return new Response(new Uint8Array(buffer), {
-            headers: {
-                'Content-Type': image.mime_type ?? 'image/png',
-                'Content-Length': String(buffer.length)
-            }
-        });
     }
 );
 
@@ -126,7 +98,7 @@ router.openapi(
 router.openapi(
     createRoute({
         method: 'get',
-        path: '/transformations/:id/status',
+        path: '/transformations/{id}/status',
         request: { params: z.object({ id: z.string().uuid() }) },
         responses: {
             200: {
@@ -136,7 +108,9 @@ router.openapi(
                             status: z.string(),
                             submitted_at: z.string(),
                             completed_at: z.string().nullable(),
-                            error_msg: z.string().nullable()
+                            error_msg: z.string().nullable(),
+                            original_image_id: z.string().uuid(),
+                            final_image_id: z.string().uuid().nullable()
                         })
                     }
                 },
@@ -159,7 +133,9 @@ router.openapi(
                 status: job.status,
                 submitted_at: job.submitted_at.toISOString(),
                 completed_at: job.completed_at?.toISOString() ?? null,
-                error_msg: job.error_msg
+                error_msg: job.error_msg,
+                original_image_id: job.original_image_id,
+                final_image_id: job.final_image_id
             },
             200 as const
         );
@@ -170,7 +146,7 @@ router.openapi(
 router.openapi(
     createRoute({
         method: 'post',
-        path: '/transformations/:id/publish',
+        path: '/transformations/{id}/publish',
         request: { params: z.object({ id: z.string().uuid() }) },
         responses: {
             200: {
@@ -200,7 +176,7 @@ router.openapi(
 router.openapi(
     createRoute({
         method: 'delete',
-        path: '/transformations/:id',
+        path: '/transformations/{id}',
         request: { params: z.object({ id: z.string().uuid() }) },
         responses: {
             200: {

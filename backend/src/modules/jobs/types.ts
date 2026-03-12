@@ -11,7 +11,7 @@ export const JobSchema = z.object({
     status: JobStatusSchema,
     public_id: z.string().uuid().nullable(),
     error_msg: z.string().nullable(),
-    original_image_id: z.string().uuid().nullable(),
+    original_image_id: z.string().uuid(),
     final_image_id: z.string().uuid().nullable(),
     submitted_at: z.coerce.date(),
     completed_at: z.coerce.date().nullable()

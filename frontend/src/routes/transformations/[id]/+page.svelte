@@ -52,7 +52,7 @@
     }
 </script>
 
-<div class="max-w-2xl space-y-6">
+<div class="max-w-4xl space-y-6">
     <div class="space-y-1">
         <div class="font-mono text-xs text-gray-400">{data.job_id}</div>
         <div class="flex items-center gap-2">
@@ -77,14 +77,32 @@
         <p class="text-sm text-red-600">{errorMsg}</p>
     {/if}
 
-    {#if status === 'completed'}
-        <div class="relative h-96 w-full overflow-hidden rounded-lg shadow">
-            <img
-                src="{API_BASE}/transformations/{data.job_id}/image"
-                alt="Processed result"
-                class="absolute inset-0 h-full w-full object-contain"
-            />
+    <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-1">
+            <p class="text-xs font-medium tracking-wide text-gray-400 uppercase">Original</p>
+            <div class="relative h-96 w-full overflow-hidden rounded-lg shadow">
+                <img
+                    src="{API_BASE}/images/private/{data.original_image_id}"
+                    alt="Original"
+                    class="absolute inset-0 h-full w-full object-contain"
+                />
+            </div>
         </div>
+        <div class="space-y-1">
+            <p class="text-xs font-medium tracking-wide text-gray-400 uppercase">Final</p>
+            <div class="relative h-96 w-full overflow-hidden rounded-lg shadow">
+                {#if status === 'completed'}
+                    <img
+                        src="{API_BASE}/images/private/{data.final_image_id}"
+                        alt="Processed result"
+                        class="absolute inset-0 h-full w-full object-contain"
+                    />
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    {#if status === 'completed'}
         <div class="flex gap-3">
             {#if !publicId}
                 <button
@@ -95,7 +113,7 @@
                 </button>
             {:else}
                 <a
-                    href="{API_BASE}/images/{publicId}"
+                    href="{API_BASE}/images/public/{publicId}"
                     rel="external"
                     target="_blank"
                     class="text-sm text-blue-600 hover:underline"

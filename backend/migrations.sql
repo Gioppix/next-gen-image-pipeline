@@ -13,7 +13,7 @@ CREATE TABLE jobs
     public_id         uuid,
     error_msg         text,
 
-    original_image_id uuid REFERENCES images (image_id),
+    original_image_id uuid        NOT NULL REFERENCES images (image_id),
     submitted_at      timestamptz NOT NULL DEFAULT NOW(),
 
     final_image_id    uuid REFERENCES images (image_id),

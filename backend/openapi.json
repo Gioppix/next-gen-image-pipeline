@@ -3,6 +3,65 @@
     "info": { "title": "Next-Gen Image Pipeline API", "version": "1.0.0" },
     "components": { "schemas": {}, "parameters": {} },
     "paths": {
+        "/transformations": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "All jobs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "jobs": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "job_id": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "status": { "type": "string" },
+                                                    "submitted_at": { "type": "string" },
+                                                    "completed_at": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "error_msg": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "original_image_id": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "final_image_id": {
+                                                        "type": "string",
+                                                        "nullable": true,
+                                                        "format": "uuid"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "job_id",
+                                                    "status",
+                                                    "submitted_at",
+                                                    "completed_at",
+                                                    "error_msg",
+                                                    "original_image_id",
+                                                    "final_image_id"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": ["jobs"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/transformations/create": {
             "post": {
                 "requestBody": {
@@ -46,7 +105,7 @@
                 }
             }
         },
-        "/transformations/:id/status": {
+        "/transformations/{id}/status": {
             "get": {
                 "parameters": [
                     {
@@ -67,13 +126,21 @@
                                         "status": { "type": "string" },
                                         "submitted_at": { "type": "string" },
                                         "completed_at": { "type": "string", "nullable": true },
-                                        "error_msg": { "type": "string", "nullable": true }
+                                        "error_msg": { "type": "string", "nullable": true },
+                                        "original_image_id": { "type": "string", "format": "uuid" },
+                                        "final_image_id": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uuid"
+                                        }
                                     },
                                     "required": [
                                         "status",
                                         "submitted_at",
                                         "completed_at",
-                                        "error_msg"
+                                        "error_msg",
+                                        "original_image_id",
+                                        "final_image_id"
                                     ]
                                 }
                             }
@@ -94,7 +161,7 @@
                 }
             }
         },
-        "/transformations/:id/publish": {
+        "/transformations/{id}/publish": {
             "post": {
                 "parameters": [
                     {
@@ -134,7 +201,7 @@
                 }
             }
         },
-        "/transformations/:id": {
+        "/transformations/{id}": {
             "delete": {
                 "parameters": [
                     {
@@ -172,13 +239,43 @@
                 }
             }
         },
-        "/images/:public_id": {
+        "/images/public/{public_id}": {
             "get": {
                 "parameters": [
                     {
                         "schema": { "type": "string", "format": "uuid" },
                         "required": true,
                         "name": "public_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Image data",
+                        "content": { "image/*": { "schema": { "nullable": true } } }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": { "error": { "type": "string" } },
+                                    "required": ["error"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/images/private/{private_id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "schema": { "type": "string", "format": "uuid" },
+                        "required": true,
+                        "name": "private_id",
                         "in": "path"
                     }
                 ],

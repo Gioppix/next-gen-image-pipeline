@@ -2,6 +2,7 @@
     import { goto } from '$app/navigation';
     import { resolve } from '$app/paths';
     import { API_BASE } from '$lib/api';
+    import Button from '$lib/components/Button.svelte';
 
     // these limits should be read from the backend
     const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -93,16 +94,16 @@
                 <p class="text-lg font-semibold text-gray-700">Drag & drop an image here</p>
                 <p class="text-sm text-gray-400">or click to browse</p>
             </div>
-            <button
-                type="button"
+            <Button
+                variant="primary"
                 onclick={(e) => {
                     e.stopPropagation();
                     fileInput?.click();
                 }}
-                class="rounded-full bg-indigo-600 px-6 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                class="rounded-full px-6 py-2"
             >
                 Upload your photo
-            </button>
+            </Button>
             <p class="text-xs text-gray-400">JPEG, PNG, or WebP · max 10 MB</p>
         {/if}
     </div>

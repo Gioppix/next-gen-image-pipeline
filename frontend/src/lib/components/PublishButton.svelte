@@ -1,4 +1,6 @@
 <script lang="ts">
+    import Button from './Button.svelte';
+
     let {
         publicId,
         onpublish,
@@ -22,11 +24,7 @@
 </script>
 
 {#if !publicId}
-    <button
-        onclick={handlePublish}
-        disabled={loading}
-        class="flex items-center gap-2 rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 disabled:opacity-60"
-    >
+    <Button variant="primary" onclick={handlePublish} disabled={loading}>
         {#if loading}
             <svg
                 class="h-3.5 w-3.5 animate-spin"
@@ -41,17 +39,14 @@
             </svg>
         {/if}
         Publish
-    </button>
+    </Button>
 {:else}
     <div class="flex w-full max-w-sm items-center gap-2">
         <span class="min-w-0 flex-1 truncate font-mono text-sm text-gray-500"
             >{apiBase}/images/public/{publicId}</span
         >
-        <button
-            onclick={copyUrl}
-            class="shrink-0 rounded bg-gray-100 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-200"
-        >
+        <Button variant="neutral" onclick={copyUrl} class="shrink-0">
             {copied ? 'Copied!' : 'Copy'}
-        </button>
+        </Button>
     </div>
 {/if}

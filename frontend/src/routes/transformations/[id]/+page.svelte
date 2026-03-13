@@ -3,6 +3,7 @@
     import { api, API_BASE } from '$lib/api';
     import ImagePanel from '$lib/components/ImagePanel.svelte';
     import PublishButton from '$lib/components/PublishButton.svelte';
+    import Button from '$lib/components/Button.svelte';
     import { resolve } from '$app/paths';
 
     let { data } = $props();
@@ -76,11 +77,6 @@
         {#if status === 'completed'}
             <PublishButton {publicId} onpublish={publish} apiBase={API_BASE} />
         {/if}
-        <button
-            onclick={deleteJob}
-            class="rounded bg-gray-100 px-3 py-1.5 text-xs text-gray-700 hover:bg-red-100 hover:text-red-700"
-        >
-            Delete
-        </button>
+        <Button variant="danger" onclick={deleteJob}>Delete</Button>
     </div>
 </div>

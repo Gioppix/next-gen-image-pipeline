@@ -5,6 +5,8 @@
     import { invalidateAll } from '$app/navigation';
     import { api } from '$lib/api';
     import PrivateImage from './PrivateImage.svelte';
+    import Button from './Button.svelte';
+    import { Trash2 } from '@lucide/svelte';
 
     let { job }: { job: { job_id: string; final_image_id: string } } = $props();
 
@@ -27,10 +29,12 @@
     >
         <PrivateImage imageId={job.final_image_id} alt="Processed" objectFit="cover" />
     </a>
-    <button
+    <Button
+        variant="danger"
+        icon
         onclick={deleteJob}
-        class="absolute top-1 right-1 hidden rounded bg-black/50 px-1.5 py-0.5 text-xs text-white group-hover:block hover:bg-black/70"
+        class="absolute top-1 right-1 opacity-0 transition-opacity group-hover:opacity-100"
     >
-        ✕
-    </button>
+        <Trash2 size={14} />
+    </Button>
 </div>

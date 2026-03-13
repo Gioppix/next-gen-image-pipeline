@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { invalidateAll } from '$app/navigation';
+    import { goto, invalidateAll } from '$app/navigation';
     import { api, API_BASE } from '$lib/api';
     import StatusBadge from '$lib/components/StatusBadge.svelte';
     import ImagePanel from '$lib/components/ImagePanel.svelte';
@@ -46,6 +46,12 @@
         if (!isCancelled()) await invalidateAll();
     }
 
+    async function deleteJob() {
+        await api.DELETE('/transformations/{id}', { params: { path: { id: data.job_id } } });
+        await invalidateAll();
+        await goto('/');
+    }
+
     async function publish() {
         const { data: res } = await api.POST('/transformations/{id}/publish', {
             params: { path: { id: data.job_id } }
@@ -55,9 +61,17 @@
 </script>
 
 <div class="max-w-4xl space-y-6">
-    <div class="space-y-1">
-        <div class="font-mono text-xs text-gray-400">{data.job_id}</div>
-        <StatusBadge {status} {polling} />
+    <div class="flex items-start justify-between">
+        <div class="space-y-1">
+            <div class="font-mono text-xs text-gray-400">{data.job_id}</div>
+            <StatusBadge {status} {polling} />
+        </div>
+        <button
+            onclick={deleteJob}
+            class="rounded bg-red-100 px-3 py-1.5 text-xs text-red-700 hover:bg-red-200"
+        >
+            Delete
+        </button>
     </div>
 
     {#if errorMsg}

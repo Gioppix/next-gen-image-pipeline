@@ -24,7 +24,7 @@
     <a
         href={resolve('/transformations/[id]', { id: job.job_id })}
         class="relative block h-28 w-28 overflow-hidden rounded-xl border-2 transition-colors"
-        class:border-blue-500={active}
+        class:border-coral-glow-500={active}
         class:border-transparent={!active}
     >
         <PrivateImage imageId={job.final_image_id} alt="Processed" objectFit="cover" />

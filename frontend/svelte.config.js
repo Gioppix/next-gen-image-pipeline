@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-node';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -9,7 +9,7 @@ const config = {
         adapter: adapter()
     },
     vitePlugin: {
-        dynamicCompileOptions: ({ filename }) => ({ runes: !filename.includes('node_modules') })
+        // dynamicCompileOptions: ({ filename }) => ({ runes: !filename.includes('node_modules') })
     }
 };
 

@@ -5,6 +5,9 @@ import { runPipeline } from '../pipeline.js';
 
 const router = new OpenAPIHono();
 
+const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
+
 const ErrorSchema = z.object({ error: z.string() });
 
 const JobSummarySchema = z.object({
@@ -80,6 +83,14 @@ router.openapi(
 
         if (!(file instanceof File)) {
             return c.json({ error: 'No file uploaded' }, 400 as const);
+        }
+
+        if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+            return c.json({ error: 'File must be JPEG, PNG, or WebP' }, 400 as const);
+        }
+
+        if (file.size > MAX_FILE_SIZE_BYTES) {
+            return c.json({ error: 'File must be 10 MB or smaller' }, 400 as const);
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());

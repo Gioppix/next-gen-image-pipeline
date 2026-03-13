@@ -14,14 +14,14 @@
         e.preventDefault();
         await api.DELETE('/transformations/{id}', { params: { path: { id: job.job_id } } });
         await invalidateAll();
-        if (active) await goto('/');
+        if (active) await goto(resolve('/'));
     }
 </script>
 
-<div class="group relative">
+<div class="group relative shrink-0">
     <a
         href={resolve('/transformations/[id]', { id: job.job_id })}
-        class="relative block h-36 min-h-36 w-full overflow-hidden rounded border-2 transition-colors"
+        class="relative block h-28 w-28 overflow-hidden rounded-xl border-2 transition-colors"
         class:border-blue-500={active}
         class:border-transparent={!active}
     >

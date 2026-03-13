@@ -3,6 +3,7 @@
     import { api, API_BASE } from '$lib/api';
     import StatusBadge from '$lib/components/StatusBadge.svelte';
     import ImagePanel from '$lib/components/ImagePanel.svelte';
+    import { resolve } from '$app/paths';
 
     let { data } = $props();
 
@@ -49,7 +50,7 @@
     async function deleteJob() {
         await api.DELETE('/transformations/{id}', { params: { path: { id: data.job_id } } });
         await invalidateAll();
-        await goto('/');
+        await goto(resolve('/'));
     }
 
     async function publish() {

@@ -1,7 +1,8 @@
 import { api } from '$lib/api';
 import { error } from '@sveltejs/kit';
 
-export async function load({ params }) {
+export async function load({ params, depends }) {
+    depends(`job:${params.id}`);
     const { data } = await api.GET('/transformations/{id}/status', {
         params: { path: { id: params.id } }
     });

@@ -122,7 +122,8 @@ router.openapi(
                             completed_at: z.string().nullable(),
                             error_msg: z.string().nullable(),
                             original_image_id: z.string().uuid(),
-                            final_image_id: z.string().uuid().nullable()
+                            final_image_id: z.string().uuid().nullable(),
+                            public_id: z.string().uuid().nullable()
                         })
                     }
                 },
@@ -147,7 +148,8 @@ router.openapi(
                 completed_at: job.completed_at?.toISOString() ?? null,
                 error_msg: job.error_msg,
                 original_image_id: job.original_image_id,
-                final_image_id: job.final_image_id
+                final_image_id: job.final_image_id,
+                public_id: job.public_id
             },
             200 as const
         );

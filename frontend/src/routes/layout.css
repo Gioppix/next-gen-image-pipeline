@@ -1,7 +1,20 @@
 @import 'tailwindcss';
 
+@keyframes progress-slide {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(400%);
+    }
+}
+
 @layer utilities {
     .page-container {
         @apply mx-auto w-full max-w-5xl px-8;
+    }
+    .animate-progress-indeterminate {
+        animation: progress-slide 1.5s ease-in-out infinite;
+        width: 25%;
     }
 }

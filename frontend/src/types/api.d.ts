@@ -140,6 +140,8 @@ export interface paths {
                             original_image_id: string;
                             /** Format: uuid */
                             final_image_id: string | null;
+                            /** Format: uuid */
+                            public_id: string | null;
                         };
                     };
                 };

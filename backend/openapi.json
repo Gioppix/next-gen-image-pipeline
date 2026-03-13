@@ -132,6 +132,11 @@
                                             "type": "string",
                                             "nullable": true,
                                             "format": "uuid"
+                                        },
+                                        "public_id": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uuid"
                                         }
                                     },
                                     "required": [
@@ -140,7 +145,8 @@
                                         "completed_at",
                                         "error_msg",
                                         "original_image_id",
-                                        "final_image_id"
+                                        "final_image_id",
+                                        "public_id"
                                     ]
                                 }
                             }

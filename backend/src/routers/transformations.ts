@@ -5,6 +5,7 @@ import { runPipeline } from '../pipeline.js';
 
 const router = new OpenAPIHono();
 
+// these limits should be shared with the frontend to have a single source of truth
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
 

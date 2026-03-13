@@ -3,8 +3,9 @@
     import { resolve } from '$app/paths';
     import { API_BASE } from '$lib/api';
 
+    // these limits should be read from the backend
     const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-    const MAX_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
+    const MAX_SIZE_BYTES = 10 * 1024 * 1024;
 
     let uploading = $state(false);
 

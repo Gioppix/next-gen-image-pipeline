@@ -4,6 +4,7 @@
     import ImagePanel from '$lib/components/ImagePanel.svelte';
     import PublishButton from '$lib/components/PublishButton.svelte';
     import Button from '$lib/components/Button.svelte';
+    import { ArrowRight } from '@lucide/svelte';
     import { resolve } from '$app/paths';
 
     let { data } = $props();
@@ -63,10 +64,10 @@
         <p class="text-sm text-red-600">{errorMsg}</p>
     {/if}
 
-    <div class="grid grid-cols-2 gap-4">
-        <ImagePanel label="Original" imageId={data.original_image_id} alt="Original" />
+    <div class="flex items-center gap-4">
+        <ImagePanel imageId={data.original_image_id} alt="Original" />
+        <ArrowRight class="shrink-0 text-gray-300" size={28} />
         <ImagePanel
-            label="Final"
             imageId={status === 'completed' ? data.final_image_id : null}
             alt="Processed result"
             {status}
@@ -77,6 +78,6 @@
         {#if status === 'completed'}
             <PublishButton {publicId} onpublish={publish} apiBase={API_BASE} />
         {/if}
-        <Button variant="danger" onclick={deleteJob}>Delete</Button>
+        <Button variant="danger" class="w-20" onclick={deleteJob}>Delete</Button>
     </div>
 </div>

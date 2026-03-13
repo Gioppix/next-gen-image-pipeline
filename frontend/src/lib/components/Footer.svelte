@@ -91,7 +91,7 @@
         </div>
 
         <div class="border-t border-gray-100 pt-6 text-xs text-gray-400">
-            © {new Date().getFullYear()} background annihilator. All rights reserved.
+            © 1984 background annihilator. All rights reserved.
         </div>
     </div>
 </footer>

@@ -55,6 +55,15 @@ export async function publishJob(job_id: string): Promise<string> {
     return PublicIdRowSchema.parse(result.rows[0]).public_id;
 }
 
+export async function getIntermediate(job_id: string, phase: ImagePhase): Promise<string | null> {
+    const result = await pool.query(
+        `SELECT image_id FROM intermediate_images WHERE job_id = $1 AND phase = $2`,
+        [job_id, phase]
+    );
+    if (result.rows.length === 0) return null;
+    return ImageIdRowSchema.parse(result.rows[0]).image_id;
+}
+
 export async function recordIntermediate(
     job_id: string,
     phase: ImagePhase,

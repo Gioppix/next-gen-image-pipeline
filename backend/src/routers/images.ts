@@ -11,7 +11,8 @@ async function serveImage(image_id: string) {
     return new Response(new Uint8Array(buffer), {
         headers: {
             'Content-Type': image.mime_type ?? 'image/png',
-            'Content-Length': String(buffer.length)
+            'Content-Length': String(buffer.length),
+            'Cache-Control': 'public, max-age=31536000, immutable'
         }
     });
 }

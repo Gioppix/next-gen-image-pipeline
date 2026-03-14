@@ -73,7 +73,7 @@
         <ImagePanel
             imageId={status === 'completed' ? data.final_image_id : null}
             alt="Processed result"
-            {status}
+            status="completed"
         />
     </div>
 

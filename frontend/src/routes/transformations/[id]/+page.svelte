@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto, invalidate, invalidateAll } from '$app/navigation';
-    import { api, API_BASE } from '$lib/api';
+    import { api } from '$lib/api';
     import ImagePanel from '$lib/components/ImagePanel.svelte';
     import PublishButton from '$lib/components/PublishButton.svelte';
     import Button from '$lib/components/Button.svelte';
@@ -72,7 +72,7 @@
 
     <div class="flex h-10 items-center justify-center gap-3">
         {#if status === 'completed'}
-            <PublishButton {publicId} onpublish={publish} apiBase={API_BASE} />
+            <PublishButton {publicId} onpublish={publish} />
         {/if}
         <Button variant="danger" class="w-20" loading={deleting} onclick={deleteJob}>Delete</Button>
     </div>

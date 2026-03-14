@@ -20,7 +20,7 @@ async function serveImage(image_id: string) {
 router.openapi(
     createRoute({
         method: 'get',
-        path: '/images/public/{public_id}',
+        path: '/share/{public_id}',
         request: { params: z.object({ public_id: z.string().uuid() }) },
         responses: {
             200: { content: { 'image/*': { schema: z.any() } }, description: 'Image data' },

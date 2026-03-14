@@ -1,16 +1,14 @@
 <script lang="ts">
     import Button from './Button.svelte';
+    import { buildUrl } from '$lib/api';
 
-    let {
-        publicId,
-        onpublish,
-        apiBase
-    }: { publicId: string | null; onpublish: () => Promise<void>; apiBase: string } = $props();
+    let { publicId, onpublish }: { publicId: string | null; onpublish: () => Promise<void> } =
+        $props();
 
     let loading = $state(false);
     let copied = $state(false);
 
-    const url = $derived(publicId ? `${apiBase}/images/public/${publicId}` : null);
+    const url = $derived(publicId ? buildUrl('/share/{public_id}', { public_id: publicId }) : null);
 
     async function handleAction() {
         if (url) {
@@ -33,7 +31,8 @@
             class="line-clamp-1 font-mono text-xs text-gray-500 transition-[filter] select-all"
             class:blur-sm={!url}
             class:select-none={!url}
-            class:pointer-events-none={!url}>{url ?? `${apiBase}/images/public/••••••••••••`}</span
+            class:pointer-events-none={!url}
+            >{url ?? buildUrl('/share/{public_id}', { public_id: '••••••••••••' })}</span
         >
     </div>
     <Button variant="neutral" onclick={handleAction} {loading} class="w-20 shrink-0 rounded-l-none">

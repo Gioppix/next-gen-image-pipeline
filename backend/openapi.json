@@ -248,7 +248,7 @@
                 }
             }
         },
-        "/images/public/{public_id}": {
+        "/share/{public_id}": {
             "get": {
                 "parameters": [
                     {

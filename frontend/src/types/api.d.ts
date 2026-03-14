@@ -268,7 +268,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/images/public/{public_id}': {
+    '/share/{public_id}': {
         parameters: {
             query?: never;
             header?: never;

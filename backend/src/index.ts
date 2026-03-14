@@ -17,6 +17,8 @@ if (ARTIFICIAL_DELAY_MS > 0) {
     });
 }
 
+app.get('/health', (c) => c.json({ status: 'ok' }));
+
 app.route('/', transformationsRouter);
 app.route('/', imagesRouter);
 

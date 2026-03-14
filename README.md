@@ -2,9 +2,12 @@
 
 _Bleeding edge tecknology_
 
+**Live demo: https://bg.giovannifeltrin.com/**
+
 ## To Improve
 
 - Add auth & usage/limiting (duh)
+- Improve responsiveness (currently ugly on mobile)
 - Jobs processing
     - Use a queue to better handle retires and restarts/crashes
 - Remove CPU-heavy image processing from main thread (`flip`)

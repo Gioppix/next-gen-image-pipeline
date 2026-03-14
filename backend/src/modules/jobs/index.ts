@@ -1,5 +1,11 @@
 import { pool } from '../db.js';
-import { JobSchema, type Job, type ImagePhase } from './types.js';
+import {
+    JobSchema,
+    ImageIdRowSchema,
+    PublicIdRowSchema,
+    type Job,
+    type ImagePhase
+} from './types.js';
 import { deleteImage } from '../images/index.js';
 
 export async function createJob(original_image_id: string): Promise<Job> {
@@ -46,7 +52,7 @@ export async function publishJob(job_id: string): Promise<string> {
         [job_id]
     );
     if (result.rows.length === 0) throw new Error('Job not found');
-    return result.rows[0].public_id;
+    return PublicIdRowSchema.parse(result.rows[0]).public_id;
 }
 
 export async function recordIntermediate(
@@ -66,7 +72,7 @@ export async function deleteIntermediate(job_id: string, phase: ImagePhase): Pro
         [job_id, phase]
     );
     for (const row of result.rows) {
-        await deleteImage(row.image_id);
+        await deleteImage(ImageIdRowSchema.parse(row).image_id);
     }
 }
 
@@ -85,7 +91,7 @@ export async function deleteJob(job_id: string): Promise<void> {
         [job_id]
     );
     for (const row of intermediates.rows) {
-        await deleteImage(row.image_id);
+        await deleteImage(ImageIdRowSchema.parse(row).image_id);
     }
 
     // Delete the job row (ON DELETE CASCADE cleans up intermediate_images)

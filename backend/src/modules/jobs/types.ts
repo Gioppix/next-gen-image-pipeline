@@ -6,6 +6,9 @@ export type JobStatus = z.infer<typeof JobStatusSchema>;
 export const ImagePhaseSchema = z.enum(['bg_removed']);
 export type ImagePhase = z.infer<typeof ImagePhaseSchema>;
 
+export const ImageIdRowSchema = z.object({ image_id: z.string().uuid() });
+export const PublicIdRowSchema = z.object({ public_id: z.string().uuid() });
+
 export const JobSchema = z.object({
     job_id: z.string().uuid(),
     status: JobStatusSchema,

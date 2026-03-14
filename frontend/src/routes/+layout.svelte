@@ -17,7 +17,7 @@
 
 <div class="flex min-h-screen flex-col bg-gray-50">
     <Header />
-    <main class="flex min-h-[80dvh] flex-1 items-center py-6">
+    <main class="flex flex-1 items-center py-6">
         <div class="page-container">
             {@render children()}
         </div>

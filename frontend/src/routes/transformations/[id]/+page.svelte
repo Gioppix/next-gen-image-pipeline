@@ -10,14 +10,12 @@
     let { data } = $props();
 
     let status = $derived(data.status);
-    let errorMsg = $derived<string | null>(data.error_msg ?? null);
     let publicId = $derived<string | null>(data.public_id ?? null);
 
     $effect(() => {
         let cancelled = false;
 
         status = data.status;
-        errorMsg = data.error_msg ?? null;
 
         if (data.status !== 'completed' && data.status !== 'failed') {
             doPoll(data.job_id, () => cancelled);
@@ -37,7 +35,6 @@
             if (isCancelled()) break;
             if (res) {
                 status = res.status;
-                errorMsg = res.error_msg ?? null;
                 if (res.status === 'completed' || res.status === 'failed') break;
             }
             await new Promise((r) => setTimeout(r, 2000));
@@ -62,18 +59,14 @@
     }
 </script>
 
-<div class="max-w-4xl space-y-6">
-    {#if errorMsg}
-        <p class="text-sm text-red-600">{errorMsg}</p>
-    {/if}
-
+<div class="max-w-4xl space-y-6 py-24">
     <div class="flex items-center gap-4">
         <ImagePanel imageId={data.original_image_id} alt="Original" />
         <ArrowRight class="shrink-0 text-gray-300" size={28} />
         <ImagePanel
             imageId={status === 'completed' ? data.final_image_id : null}
             alt="Processed result"
-            status="completed"
+            {status}
         />
     </div>
 

@@ -27,7 +27,7 @@
 
 <div class="flex items-center">
     <div
-        class="flex h-8.5 max-w-52 items-center rounded-l border border-r-0 border-light-gold-400 bg-gray-50 px-2.5"
+        class="flex h-8.5 max-w-52 items-center rounded-l border border-r-0 border-gray-300 bg-gray-50 px-2.5"
     >
         <span
             class="line-clamp-1 font-mono text-xs text-gray-500 transition-[filter] select-all"

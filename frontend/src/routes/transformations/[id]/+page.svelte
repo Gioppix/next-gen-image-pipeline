@@ -45,7 +45,10 @@
         if (!isCancelled()) await invalidateAll();
     }
 
+    let deleting = $state(false);
+
     async function deleteJob() {
+        deleting = true;
         await api.DELETE('/transformations/{id}', { params: { path: { id: data.job_id } } });
         await invalidateAll();
         await goto(resolve('/'));
@@ -78,6 +81,6 @@
         {#if status === 'completed'}
             <PublishButton {publicId} onpublish={publish} apiBase={API_BASE} />
         {/if}
-        <Button variant="danger" class="w-20" onclick={deleteJob}>Delete</Button>
+        <Button variant="danger" class="w-20" loading={deleting} onclick={deleteJob}>Delete</Button>
     </div>
 </div>

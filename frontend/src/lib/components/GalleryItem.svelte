@@ -11,9 +11,11 @@
     let { job }: { job: { job_id: string; final_image_id: string } } = $props();
 
     let active = $derived($page.params.id === job.job_id);
+    let deleting = $state(false);
 
     async function deleteJob(e: MouseEvent) {
         e.preventDefault();
+        deleting = true;
         await api.DELETE('/transformations/{id}', { params: { path: { id: job.job_id } } });
         await invalidateAll();
         if (active) await goto(resolve('/'));
@@ -32,6 +34,7 @@
     <Button
         variant="danger"
         icon
+        loading={deleting}
         onclick={deleteJob}
         class="absolute top-1 right-1 opacity-0 transition-opacity group-hover:opacity-100"
     >

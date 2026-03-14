@@ -1,10 +1,12 @@
 <script lang="ts">
     import type { Snippet } from 'svelte';
+    import { Loader2 } from '@lucide/svelte';
 
     let {
         variant = 'neutral',
         icon = false,
         disabled = false,
+        loading = false,
         type = 'button' as const,
         onclick,
         class: className = '',
@@ -13,6 +15,7 @@
         variant?: 'primary' | 'neutral' | 'danger';
         icon?: boolean;
         disabled?: boolean;
+        loading?: boolean;
         type?: 'button' | 'submit' | 'reset';
         onclick?: (e: MouseEvent) => void;
         class?: string;
@@ -33,6 +36,17 @@
     const padding = $derived(icon ? 'p-1.5' : 'px-3 py-1.5');
 </script>
 
-<button {type} {disabled} {onclick} class="{base} {variants[variant]} {padding} {className}">
-    {@render children?.()}
+<button
+    {type}
+    disabled={disabled || loading}
+    {onclick}
+    class="{base} {variants[variant]} {padding} {className}"
+>
+    {#if loading}
+        {#if !icon}&nbsp;{/if}
+        <Loader2 size={14} class="animate-spin" />
+        {#if !icon}&nbsp;{/if}
+    {:else}
+        {@render children?.()}
+    {/if}
 </button>

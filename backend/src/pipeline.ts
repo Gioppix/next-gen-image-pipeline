@@ -43,8 +43,6 @@ export async function runPipeline(jobId: string, maxRetries = 2): Promise<void> 
                 } catch (cleanupErr) {
                     console.error('[pipeline] cleanup error:', cleanupErr);
                 }
-                bgImageId = null;
-                intermediateRecorded = false;
             }
 
             if (attempt < maxRetries) {

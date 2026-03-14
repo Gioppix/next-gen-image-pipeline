@@ -91,7 +91,6 @@ export async function deleteJob(job_id: string): Promise<void> {
     // Delete the job row (ON DELETE CASCADE cleans up intermediate_images)
     await pool.query(`DELETE FROM jobs WHERE job_id = $1`, [job_id]);
 
-    // Delete original and final images after the job row is gone
     if (job.original_image_id) await deleteImage(job.original_image_id);
     if (job.final_image_id) await deleteImage(job.final_image_id);
 }

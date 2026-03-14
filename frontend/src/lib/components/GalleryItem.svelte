@@ -1,8 +1,7 @@
 <script lang="ts">
     import { page } from '$app/stores';
-    import { goto } from '$app/navigation';
+    import { goto, invalidateAll } from '$app/navigation';
     import { resolve } from '$app/paths';
-    import { invalidateAll } from '$app/navigation';
     import { api } from '$lib/api';
     import PrivateImage from './PrivateImage.svelte';
     import Button from './Button.svelte';

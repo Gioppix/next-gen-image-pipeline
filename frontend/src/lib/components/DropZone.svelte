@@ -4,7 +4,7 @@
     import { API_BASE } from '$lib/api';
     import Button from '$lib/components/Button.svelte';
 
-    // these limits should be read from the backend
+    // TODO: share these limits with the backend
     const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
     const MAX_SIZE_BYTES = 10 * 1024 * 1024;
 

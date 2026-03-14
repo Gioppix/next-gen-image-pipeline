@@ -17,7 +17,6 @@ async function serveImage(image_id: string) {
     });
 }
 
-// GET /images/public/:public_id
 router.openapi(
     createRoute({
         method: 'get',
@@ -39,7 +38,6 @@ router.openapi(
     }
 );
 
-// GET /images/private/:private_id
 router.openapi(
     createRoute({
         method: 'get',

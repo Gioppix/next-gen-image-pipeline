@@ -6,7 +6,7 @@ import { runPipeline } from '../pipeline.js';
 
 const router = new OpenAPIHono();
 
-// these limits should be shared with the frontend to have a single source of truth
+// TODO: share these limits with the frontend
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
 
@@ -22,7 +22,6 @@ const JobSummarySchema = z.object({
     final_image_id: z.string().uuid().nullable()
 });
 
-// GET /transformations
 router.openapi(
     createRoute({
         method: 'get',
@@ -55,7 +54,6 @@ router.openapi(
     }
 );
 
-// POST /transformations/create
 router.openapi(
     createRoute({
         method: 'post',
@@ -107,7 +105,6 @@ router.openapi(
     }
 );
 
-// GET /transformations/:id/status
 router.openapi(
     createRoute({
         method: 'get',
@@ -157,7 +154,6 @@ router.openapi(
     }
 );
 
-// POST /transformations/:id/publish
 router.openapi(
     createRoute({
         method: 'post',
@@ -187,7 +183,6 @@ router.openapi(
     }
 );
 
-// DELETE /transformations/:id
 router.openapi(
     createRoute({
         method: 'delete',
@@ -209,7 +204,7 @@ router.openapi(
 
         try {
             await jobs.deleteJob(id);
-            return c.json({ success: true as const }, 200 as const);
+            return c.json({ success: true }, 200 as const);
         } catch (err) {
             if (err instanceof Error && err.message === 'Job not found') {
                 return c.json({ error: 'Job not found' }, 404 as const);

@@ -6,6 +6,7 @@
         "dev": "tsx watch --env-file=.env src/index.ts",
         "build": "tsc",
         "start": "node --env-file=.env dist/index.js",
+        "start:prod": "node dist/index.js",
         "format": "prettier --write .",
         "gen:api": "tsx --env-file=.env scripts/gen-openapi.ts",
         "db:dev": "source .env && psql postgres://postgres:postgres@localhost:5432/postgres -c \"DROP DATABASE IF EXISTS $DATABASE_NAME WITH (FORCE)\" && psql postgres://postgres:postgres@localhost:5432/postgres -c \"CREATE DATABASE $DATABASE_NAME\" && psql postgres://postgres:postgres@localhost:5432/$DATABASE_NAME -f migrations.sql",

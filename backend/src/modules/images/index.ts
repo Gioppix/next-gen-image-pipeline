@@ -20,6 +20,9 @@ const s3 = new S3Client({
 
 const BUCKET = process.env.S3_BUCKET ?? 'images';
 
+// Operation ordering: S3 before DB on writes, DB before S3 on deletes.
+// A stale S3 object is acceptable; a DB record pointing to nothing is not.
+
 interface ImageMeta {
     mime_type: string;
 }
@@ -67,6 +70,6 @@ export async function readImage(image_id: string): Promise<{ buffer: Buffer; ima
 }
 
 export async function deleteImage(image_id: string): Promise<void> {
-    await s3.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: image_id }));
     await pool.query(`DELETE FROM images WHERE image_id = $1`, [image_id]);
+    await s3.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: image_id }));
 }

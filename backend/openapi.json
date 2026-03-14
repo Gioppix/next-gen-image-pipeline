@@ -123,7 +123,10 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "status": { "type": "string" },
+                                        "status": {
+                                            "type": "string",
+                                            "enum": ["pending", "processing", "completed", "failed"]
+                                        },
                                         "submitted_at": { "type": "string" },
                                         "completed_at": { "type": "string", "nullable": true },
                                         "error_msg": { "type": "string", "nullable": true },

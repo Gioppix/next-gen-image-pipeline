@@ -1,11 +1,12 @@
 <script lang="ts">
     import PrivateImage from './PrivateImage.svelte';
+    import type { JobStatus } from '$lib/api';
 
     let {
         imageId,
         alt,
         status
-    }: { imageId: string | null | undefined; alt: string; status?: string } = $props();
+    }: { imageId: string | null | undefined; alt: string; status?: JobStatus } = $props();
 
     let inProgress = $derived(status === 'pending' || status === 'processing');
     let failed = $derived(status === 'failed');

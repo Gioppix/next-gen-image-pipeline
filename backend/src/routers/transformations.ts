@@ -1,6 +1,7 @@
 import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import * as images from '../modules/images/index.js';
 import * as jobs from '../modules/jobs/index.js';
+import { JobStatusSchema } from '../modules/jobs/types.js';
 import { runPipeline } from '../pipeline.js';
 
 const router = new OpenAPIHono();
@@ -117,7 +118,7 @@ router.openapi(
                 content: {
                     'application/json': {
                         schema: z.object({
-                            status: z.string(),
+                            status: JobStatusSchema,
                             submitted_at: z.string(),
                             completed_at: z.string().nullable(),
                             error_msg: z.string().nullable(),

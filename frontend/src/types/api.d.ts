@@ -132,7 +132,8 @@ export interface paths {
                     };
                     content: {
                         'application/json': {
-                            status: string;
+                            /** @enum {string} */
+                            status: 'pending' | 'processing' | 'completed' | 'failed';
                             submitted_at: string;
                             completed_at: string | null;
                             error_msg: string | null;
